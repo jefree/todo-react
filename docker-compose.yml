@@ -1,0 +1,11 @@
+version: '2'
+services:
+  web:
+    image: jegarma/todo-react
+    shm_size: 128m
+    stdin_open: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./:/todo-react"
+    command: npm start
