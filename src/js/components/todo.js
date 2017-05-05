@@ -5,7 +5,8 @@ class Todo extends Component {
     super(props)
 
     this.state = {
-      completed: this.props.completed
+      completed: this.props.completed,
+      text: this.props.text
     }
   }
 
@@ -13,10 +14,17 @@ class Todo extends Component {
     return (
       <li>
         <input type="checkbox" onChange={this.onChangeState.bind(this)}/>
-        <label style={{'textDecoration': this.textDecoration() }}> { this.props.text } </label>
+        <label style={{'textDecoration': this.textDecoration() }}> { this.state.text } </label>
         <button onClick = {this.onDelete.bind(this)}> Eliminar </button>
+        <input onInput={this.onChangeText.bind(this)} value= {this.state.text}/>
       </li>
     )
+  }
+
+  onChangeText(event) {
+    this.setState({
+      text: event.target.value
+    })
   }
 
   onChangeState() {
