@@ -14,9 +14,8 @@ class Todo extends Component {
     return (
       <li>
         <input type="checkbox" onChange={this.onChangeState.bind(this)}/>
-        <label style={{'textDecoration': this.textDecoration() }}> { this.state.text } </label>
+        { this.getRepresentationText() }
         <button onClick = {this.onDelete.bind(this)}> Eliminar </button>
-        <input onInput={this.onChangeText.bind(this)} value= {this.state.text}/>
       </li>
     )
   }
@@ -33,10 +32,33 @@ class Todo extends Component {
     })
   }
 
+  onDoubleClick() {
+    this.setState({editing: true})
+  }
+
+  onKeyDown(evt) {
+    if (evt.which == 13) {
+      this.setState({editing:false})
+    }
+  }
+
+  getRepresentationText() {
+    let component
+
+    if (this.state.editing) {
+      component =  <input onInput={this.onChangeText.bind(this)} onKeyDown={this.onKeyDown.bind(this)} value= {this.state.text}/>
+    }
+    else {
+      component =  <label style={{'textDecoration': this.textDecoration() }} onDoubleClick={this.onDoubleClick.bind(this)}> { this.state.text } </label>
+    }
+
+    return component
+  }
+
   textDecoration() {
-    console.log("text")
     return this.state.completed ? 'line-through' : 'none'
   }
+
   onDelete(){
     this.props.onDeleteToDo(this.props.id)
   }
